@@ -16,9 +16,11 @@ export default function Header({
         
         {/* Brand */}
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-blue-500 text-white rounded-2xl shadow-md shadow-blue-500/20 flex items-center justify-center">
-            <Sparkles className="h-6 w-6 animate-pulse" />
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="LearnDeeta Logo" 
+            className="h-11 w-11 rounded-2xl shadow-md shadow-blue-500/10 object-cover" 
+          />
           <div>
             <h1 className={`text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 ${dyslexiaMode ? 'dyslexia-font' : 'font-sans'}`}>
               LearnDeeta
