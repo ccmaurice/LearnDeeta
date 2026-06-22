@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply transition-colors duration-300 font-sans antialiased;
+  }
+}
+
+/* Custom Spacing and styling for Dyslexia Mode */
+.dyslexia-font {
+  font-family: 'Lexend', 'Comic Neue', 'Comic Sans MS', sans-serif !important;
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.22em !important;
+  line-height: 1.8 !important;
+}
+
+.dyslexia-font p, 
+.dyslexia-font span, 
+.dyslexia-font li, 
+.dyslexia-font h1, 
+.dyslexia-font h2, 
+.dyslexia-font h3, 
+.dyslexia-font h4, 
+.dyslexia-font button,
+.dyslexia-font div {
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.22em !important;
+  line-height: 1.8 !important;
+}
+
+/* Breathing Bubble animation */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(0.85);
+    background-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 15px 5px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    transform: scale(1.15);
+    background-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 0 30px 15px rgba(16, 185, 129, 0.4);
+  }
+}
+
+.breathing-bubble {
+  animation: breathe 8s ease-in-out infinite;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-300 dark:bg-zinc-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-zinc-400 dark:bg-zinc-600;
+}
+
+/* Focus mode transitions */
+.focus-transition {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
