@@ -332,7 +332,7 @@ export default function App() {
       
       {/* Footer */}
       <footer className="py-6 border-t border-zinc-200 dark:border-zinc-800 text-center text-xs text-zinc-400 dark:text-zinc-500 font-medium bg-white dark:bg-darkCard">
-        <p>© 2026 LearnDeeta Project Team. Built for Kaggle Agents for Good Capstone.</p>
+        <p>© 2026 VisionVibe Project Team. LearnDeeta | Built by C. C. Maurice and SreejaRajkumar for Kaggle Agents for Good Capstone.</p>
       </footer>
 
     </div>
