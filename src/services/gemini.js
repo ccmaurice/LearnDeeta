@@ -17,31 +17,40 @@ const MODEL_NAME = "gemini-2.5-flash";
  */
 export async function streamGemini(prompt, systemInstruction, apiKey, onChunk, onFinish, onError) {
   try {
-    if (!apiKey) {
-      throw new Error("Gemini API Key is missing. Please set it in Settings.");
+    let url;
+    let headers = { "Content-Type": "application/json" };
+    let body;
+
+    if (apiKey) {
+      url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:streamGenerateContent?alt=sse&key=${apiKey}`;
+      body = {
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: prompt }]
+          }
+        ],
+        systemInstruction: {
+          parts: [{ text: systemInstruction }]
+        },
+        generationConfig: {
+          temperature: 0.5,
+        }
+      };
+    } else {
+      url = `/api/gemini-stream`;
+      body = {
+        prompt,
+        systemInstruction
+      };
     }
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:streamGenerateContent?alt=sse&key=${apiKey}`,
+      url,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: prompt }]
-            }
-          ],
-          systemInstruction: {
-            parts: [{ text: systemInstruction }]
-          },
-          generationConfig: {
-            temperature: 0.5,
-          }
-        })
+        headers,
+        body: JSON.stringify(body)
       }
     );
 
@@ -111,32 +120,41 @@ export async function streamGemini(prompt, systemInstruction, apiKey, onChunk, o
  * @returns {Promise<object>} Parsed JSON object
  */
 export async function generateGeminiJSON(prompt, systemInstruction, apiKey) {
-  if (!apiKey) {
-    throw new Error("Gemini API Key is missing. Please set it in Settings.");
+  let url;
+  let headers = { "Content-Type": "application/json" };
+  let body;
+
+  if (apiKey) {
+    url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
+    body = {
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: prompt }]
+        }
+      ],
+      systemInstruction: {
+        parts: [{ text: systemInstruction }]
+      },
+      generationConfig: {
+        temperature: 0.2,
+        responseMimeType: "application/json"
+      }
+    };
+  } else {
+    url = `/api/gemini-json`;
+    body = {
+      prompt,
+      systemInstruction
+    };
   }
 
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`,
+    url,
     {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: prompt }]
-          }
-        ],
-        systemInstruction: {
-          parts: [{ text: systemInstruction }]
-        },
-        generationConfig: {
-          temperature: 0.2,
-          responseMimeType: "application/json"
-        }
-      })
+      headers,
+      body: JSON.stringify(body)
     }
   );
 

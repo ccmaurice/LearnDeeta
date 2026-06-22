@@ -104,17 +104,7 @@ export default function App() {
       return;
     }
 
-    if (!settings.apiKey) {
-      setTimeout(() => {
-        setMessages(prev => [...prev, {
-          id: (Date.now() + 1).toString(),
-          sender: 'deeta',
-          text: `⚠️ **API Key Missing!**\n\nI need a **Gemini API Key** to search and explain custom topics.\n\nPlease click the **Settings Cog (⚙️)** in the top-right to enter a key, or choose one of our **preloaded topics** on the home screen to test all features instantly!`
-        }]);
-        setIsLoading(false);
-      }, 1000);
-      return;
-    }
+
 
     // Call real Gemini API
     try {
@@ -160,8 +150,14 @@ export default function App() {
           }
         },
         (err) => {
+          const isMissingKey = err.message.includes("API Key not configured on server") || err.message.includes("API Key is missing");
           setMessages(prev => 
-            prev.map(m => m.id === tutorMsgId ? { ...m, text: `❌ **Error:** ${err.message}` } : m)
+            prev.map(m => m.id === tutorMsgId ? { 
+              ...m, 
+              text: isMissingKey 
+                ? `⚠️ **API Key Missing!**\n\nI need a **Gemini API Key** to search and explain custom topics.\n\nPlease click the **Settings Cog (⚙️)** in the top-right to enter a key, or choose one of our **preloaded topics** on the home screen to test all features instantly!`
+                : `❌ **Error:** ${err.message}` 
+            } : m)
           );
           setIsLoading(false);
         }
